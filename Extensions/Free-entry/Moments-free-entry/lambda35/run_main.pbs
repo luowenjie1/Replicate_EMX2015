@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -V
+#PBS -S /bin/tcsh
+#PBS -N Lambda35
+#PBS -l nodes=1:ppn=8,walltime=48:00:00
+#PBS -M jab772@nyu.edu
+#PBS -m abe
+#PBS -e localhost:/scratch/jab772/virgiliu/trademarkups/lambda35/${PBS_JOBNAME}.e${PBS_JOBID}
+#PBS -o localhost:/scratch/jab772/virgiliu/trademarkups/lambda35/${PBS_JOBNAME}.o${PBS_JOBID}
+
+cd $PBS_O_WORKDIR
+
+/share/apps/matlab/R2012a/bin/matlab -nodisplay < start_calibration.m
+

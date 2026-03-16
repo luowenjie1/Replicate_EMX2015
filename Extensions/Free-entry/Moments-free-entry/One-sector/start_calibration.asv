@@ -1,0 +1,48 @@
+clear all
+clc
+
+%%%%% parameters to calibrate
+
+N       = 150;                  % number of firms that draw
+om1     = 0.065; 
+om2     = 0.025; 
+ebar    = 2.0;                  % productivity of type 2
+su      = 0.25;                 % standard deviation of Home/Foreign productivity gap
+tau     = 1.15; 
+
+
+
+x      = [N, om1, om2, ebar, su, tau];
+nvars  = length(x);
+
+%%%%% constraints on x
+
+lb     = [50,   0.1,  .005,   1,  2.5,  .3];        % lower bounds
+ub     = [300,  1.5,  .10,    5,  6.0,  .8];        % upper bounds
+
+intcon = 1;   %  x(1) must be an integer, number of firms
+
+%%%%%% settings for genetic algorithm
+
+A   = []; b   = [];
+Aeq = []; beq = []; nonlcon = [];
+
+addpath(genpath('/scratch/jab772/compecom')); 
+matlabpool open 12
+
+%gaoptions = gaoptimset(gaoptions,'UseParallel','always','Display','iter','InitialPopulation',xstart);
+gaoptions = gaoptimset('UseParallel', 'always', 'Display','iter','InitialPopulation',x);
+x = ga(@objective, nvars, A, b, Aeq, beq, lb, ub, [], intcon, gaoptions);
+
+%options = gaoptimset('Generations',100,'Vectorized','on','UseParallel','always');    
+%[x,fval,exitflag,output] = ga(@(x)objective(x,params),nvars,A,b,Aeq,beq,lb,ub,nonlcon,intcon);
+
+matlabpool close
+
+x     = x';
+xsave = x;   % save in case fminsearch goes wild
+
+x = fminsearch('objective', x, optimset('Display', 'iter')); 
+
+save Results xsave x
+

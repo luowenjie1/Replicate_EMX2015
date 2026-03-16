@@ -1,0 +1,10 @@
+Error in <a href="matlab:helpUtils.errorDocCallback('objective', '/scratch/jab772/virgiliu/trademarkups/Entry1/objective.m', 3)" style="font-weight:bold">objective</a> (<a href="matlab: opentoline('/scratch/jab772/virgiliu/trademarkups/Entry1/objective.m',3,0)">line 3</a>)
+global gamma theta tau ebar N S
+
+{Output argument "y" (and maybe others) not assigned during call to
+"/scratch/jab772/virgiliu/trademarkups/Entry1/objective.m>objective".
+
+Error in fminsearch (line 251)
+    x(:) = y; f = funfcn(x,varargin{:});
+} 
+

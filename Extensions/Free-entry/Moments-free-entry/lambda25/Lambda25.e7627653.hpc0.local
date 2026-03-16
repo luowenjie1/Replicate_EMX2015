@@ -1,0 +1,16 @@
+{Error using matlabpool (line 144)
+Failed to open matlabpool. (For information in addition to the causing error,
+validate the profile 'local' in the Cluster Profile Manager.)
+
+Caused by:
+    Error using distcomp.interactiveclient/start (line 88)
+    Failed to start matlabpool.
+    This is caused by:
+    You requested a minimum of 12 workers, but the cluster "local" has the
+    NumWorkers property set to allow a maximum of 8 workers. To run a
+    communicating job on more workers than this (up to a maximum of 12 for the
+    Local cluster), increase the value of the NumWorkers property for the
+    cluster. The default value of NumWorkers for a Local cluster is the number
+    of cores on the local machine.
+} 
+

@@ -1,0 +1,28 @@
+Warning: no access to tty (Bad file descriptor).
+Thus no job control in this shell.
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2012 The MathWorks, Inc.
+                    R2012a (7.14.0.739) 64-bit (glnxa64)
+                              February 9, 2012
+
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+>> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> >> {Warning: Found 3 pre-existing parallel job(s) created by matlabpool that are
+running.
+You can use   'matlabpool close force local'    or create a configuration for
+the parallel.cluster.Local object and use   'matlabpool close force
+<configurationName>'    to remove all jobs created by matlabpool.} 
+{> In distcomp.interactiveclient.pRemoveOldJobs at 55
+  In distcomp.interactiveclient.start at 58
+  In MatlabpoolHelper>MatlabpoolHelper.doOpen at 286
+  In MatlabpoolHelper>MatlabpoolHelper.doMatlabpool at 137
+  In matlabpool at 139} 
+Starting matlabpool using the 'local' profile ... stopped.
+
+>> >> >> >> >> 
+Solve each industrys equilibrium 
+
+Terminated

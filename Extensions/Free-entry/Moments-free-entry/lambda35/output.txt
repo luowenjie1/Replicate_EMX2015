@@ -1,0 +1,99 @@
+Equilibrium Implications
+
+Y                   =   1.757 
+A                   =   1.757 
+L                   =   1.000 
+aggregate profits   =   0.381 
+A loss, *100        =   4.618 
+mean markup         =   1.152 
+aggregate markup    =   1.277 
+import share        =   0.382 
+trade elastic       =   3.996 
+
+...calculating model moments... 
+                                         Model    Data
+
+mean HH inverse                      =   7.165   7.245 
+median HH inverse                    =   4.685   3.921 
+mean highest share                   =   0.313   0.449 
+median highest share                 =   0.250   0.396 
+
+mean share                           =   0.050   0.038 
+s.d. share                           =   0.102   0.106 
+median share                         =   0.010   0.005 
+75th share                           =   0.052   0.023 
+95th share                           =   0.250   0.191 
+99th share                           =   0.500   0.591 
+
+
+Search over sectoral Pareto shape that best fits size distribution 
+
+
+
+Pareto shape sectoral draws          =   1.360  
+
+
+frac. sales top 0.01 sectors         =   0.192   0.261 
+frac. sales top 0.05 sectors         =   0.379   0.523 
+frac. WL of (same) top 0.01          =   0.193   0.105 
+frac. WL of (same) top 0.05          =   0.380   0.323 
+
+number producers p10                 =       3       2 
+number producers p25                 =       4       4 
+number producers p50                 =      13      10 
+number producers p75                 =      41      22 
+number producers p90                 =      51      50 
+number producers p95                 =      54      85 
+
+frac. value added top 0.01 establ.   =   0.328   0.413 
+frac. value added top 0.05 establ.   =   0.583   0.647 
+frac. WL of (same) top 0.01          =   0.312   0.238 
+frac. WL of (same) top 0.05          =   0.560   0.469 
+
+agg. import share                    =   0.382   0.376 
+
+index import share dispers.          =   0.809   0.622 
+Grubel-Lloyd (GL) index              =   0.797   0.368 
+
+
+mean   p90-p10                       =   0.174   0.290 
+median p90-p10                       =   0.110   0.225 
+mean   p75-p25                       =   0.085   0.158 
+median p75-p25                       =   0.000   0.081 
+mean   sd share                      =   0.079   0.144 
+median sd share                      =   0.051   0.105 
+
+HH inverse p10                       =   2.000   1.135 
+HH inverse p25                       =   3.000   1.997 
+HH inverse p50                       =   4.685   3.608 
+HH inverse p75                       =   9.787   6.819 
+HH inverse p90                       =  15.000  13.311 
+HH inverse p95                       =  20.536  20.764 
+
+top share  p10                       =   0.077   0.162 
+top share  p25                       =   0.120   0.258 
+top share  p50                       =   0.250   0.416 
+top share  p75                       =   0.454   0.644 
+top share  p90                       =   0.638   0.938 
+top share  p95                       =   0.768   1.000 
+
+sectoral markup  p50                 =   1.276   1.610 
+sectoral markup  p75 to p50          =   1.056   1.140 
+sectoral markup  p90 to p50          =   1.140   1.430 
+sectoral markup  p95 to p50          =   1.199   1.820 
+sectoral markup  p99 to p50          =   1.361   3.160 
+
+
+mean absolute percentage loss        =   0.381 
+
+Equilibrium Implications
+
+Y                   =   1.559 
+A                   =   1.559 
+L                   =   1.000 
+aggregate profits   =   0.418 
+A loss, *100        =   9.870 
+mean markup         =   1.166 
+aggregate markup    =   1.367 
+import share        =   0.000 
+trade elastic       =  -0.000 
