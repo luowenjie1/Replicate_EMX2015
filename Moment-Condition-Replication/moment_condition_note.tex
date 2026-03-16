@@ -1,0 +1,102 @@
+\documentclass[12pt]{article}
+\usepackage[UTF8]{ctex}
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{booktabs}
+\usepackage{xcolor}
+\usepackage{listings}
+\usepackage{hyperref}
+
+\lstdefinestyle{mystyle}{
+  language=Matlab,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue!70!black},
+  commentstyle=\color{green!40!black},
+  stringstyle=\color{red!60!black},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=8pt,
+  frame=single,
+  breaklines=true,
+  showstringspaces=false
+}
+\lstset{style=mystyle}
+
+\title{从 Moment Condition 出发复现\\\small Edmond et al. (2015) 的一份入门笔记}
+\author{Replicate\_EMX2015 学习记录}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{为什么先看 Moment Condition？}
+在结构估计（尤其是 SMM/GMM）里，\textbf{moment condition（矩条件）}的核心思想是：
+\begin{equation}
+\mathbb{E}[m(X,\theta_0)] = 0,
+\end{equation}
+其中 $X$ 是数据，$\theta_0$ 是真实参数，$m(\cdot)$ 是你构造的“误差条件”或“匹配条件”。
+
+在实际样本中，期望变成样本平均或模拟对应量，估计目标常写成：
+\begin{equation}
+\hat\theta = \arg\min_{\theta}\; g(\theta)^\top W g(\theta),
+\quad g(\theta)=\hat m^{\text{data}}-\hat m^{\text{model}}(\theta).
+\end{equation}
+如果 $W=I$（单位阵），就是“等权重”SMM 距离最小化。
+
+\section{与 Edmond et al. (2015) 复现代码的对应关系}
+这个仓库里的 MATLAB 代码正是把“数据矩”和“模型矩”对齐，然后最小化两者之间的距离。
+
+\subsection{数据矩（data moments）}
+数据矩在 \texttt{Data/Matlab-code/data\_moments.m} 中构造，最后拼接为向量 \texttt{all\_data\_moments} 并保存。
+
+\lstinputlisting[
+  caption={数据矩的拼接与保存（相对路径调用）},
+  firstline=184,
+  lastline=190
+]{../Data/Matlab-code/data_moments.m}
+
+\subsection{模型矩（model moments）与损失函数}
+在 \texttt{Benchmark-model/model\_moments.m} 中，模型端同样拼接 \texttt{all\_model\_moments}，并与数据矩比较：
+
+\lstinputlisting[
+  caption={模型矩与数据矩对齐（相对路径调用）},
+  firstline=228,
+  lastline=241
+]{../Benchmark-model/model_moments.m}
+
+该文件进一步定义了（逐元素）相对误差形式的损失：
+
+\lstinputlisting[
+  caption={用于校准的损失定义（相对路径调用）},
+  firstline=322,
+  lastline=324
+]{../Benchmark-model/model_moments.m}
+
+这和矩条件的联系是：当参数 $\theta$ 合适时，$\hat m^{\text{model}}(\theta)$ 应尽量贴近 $\hat m^{\text{data}}$，即 $g(\theta)$ 尽量接近 0。
+
+\subsection{参数搜索（calibration）的入口}
+\texttt{Benchmark-model/start.m} 提供了基准参数并调用均衡与矩计算模块。对于初学者，可以把它看成“给定参数 $\theta$，生成模型矩并看误差”的主入口。
+
+\lstinputlisting[
+  caption={基准模型入口脚本（相对路径调用）},
+  firstline=1,
+  lastline=30
+]{../Benchmark-model/start.m}
+
+\section{给本科新生的直觉总结}
+\begin{itemize}
+  \item 先选一组你想匹配的统计量（矩）：比如集中度、份额分布、进出口结构。
+  \item 数据里算一次（得到 data moments）。
+  \item 模型里给定参数算一次（得到 model moments）。
+  \item 调参数，让两者距离最小。这就是 moment condition 在该复现代码中的“可计算版本”。
+\end{itemize}
+
+\section{建议你的下一步}
+\begin{enumerate}
+  \item 先只盯住 3--5 个矩，手工改 \texttt{start.m} 里的参数，观察 \texttt{model\_moments.m} 输出怎么变。
+  \item 再把完整矩向量纳入，理解为什么某些矩更难匹配（例如尾部分布矩）。
+  \item 最后再学习权重矩阵 $W$（哪些矩应该权重大一些）。
+\end{enumerate}
+
+\end{document}
