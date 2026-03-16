@@ -1,48 +1,61 @@
+/*
+-------------------------------------------------------------------------------
+markup_reg.do (Appendix DLW markup aggregation)
+Purpose: Merge plant-product data with DLW plant markups and build sector markups.
+
+[DATA AVAILABILITY NOTICE]
+Depends on confidential/restricted files:
+- ../../../data_moments/plant_product.dta
+- ../../../production/plant_mkup_g.dta
+If missing, script cannot reproduce Appendix results.
+-------------------------------------------------------------------------------
+*/
+
 clear
-
 clear matrix
-
 set mem 1g
 
-*************1. Plant-product Level Data*****************
 cd "../../../data_moments"
 
+* Plant-product panel from main data construction.
 use plant_product.dta, clear
 drop _merge
-**********************2. Merge in Plant Level Data of Markups and "Productivity"*****************
-/**only losing around 10% of sales**/
+
+* Merge plant-level markups from markup_calc.do.
 merge m:1 stno year using "../../../production/plant_mkup_g.dta"
 table _merge year, c(sum sales)
 
 keep if _merge==3
 drop _merge
 
-egen fsales = sum(psales), by(stno year) /*the plant-level data dropping was problematic*/
-drop if last>0              /** drop  firms selling in 9x industries (other) **/
-keep if abs((fsales-sales)/sales)<.20 /* drop guys w/ bad match of plant sales */
+* Keep reliable product-to-plant matching sample.
+egen fsales = sum(psales), by(stno year)
+drop if last>0
+keep if abs((fsales-sales)/sales)<.20
 
 sum mkup_lg, d
 
+* Weighted mean inverse markup by year.
 gen imkup_lg = 1/mkup_lg
-tabstat imkup_lg [aweight = psales], by (year) stat (mean)
+tabstat imkup_lg [aweight = psales], by(year) stat(mean)
 
-*********************Construct sectoral level variables****************
+* Predict inverse markup from import share control.
 gen lnmkup = log(mkup_lg)
 gen lnshare = log(tshare)
 reg imkup_lg tshare i.year
-**projected markup
 predict imkup, xb
 
-/***sectoral markups****/
+* Aggregate product-year sector markups (harmonic weighting).
 replace imkup = . if imkup<0.1
 gen mk_missing = 0 if imkup==.
 replace mk_missing = 1 if imkup~=.
 
-egen norm_tshare = sum(tshare*mk_missing), by (prodno year)
+egen norm_tshare = sum(tshare*mk_missing), by(prodno year)
 gen norm_share = tshare*mk_missing/norm_tshare
 
 gen imkup_sh = imkup*norm_share
-collapse (sum) isec_markup = imkup_sh (sd) sd_share = norm_share, by (prodno year)
+collapse (sum) isec_markup = imkup_sh (sd) sd_share = norm_share, by(prodno year)
 gen sec_markup = 1/isec_markup
 
+* Dispersion-mean relationship reported in appendix discussion.
 reg sec_markup sd_share, r
